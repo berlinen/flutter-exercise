@@ -29,6 +29,12 @@ class RandomWordsState extends State<RandomWords> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Startup Name Generator'),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.list),
+            onPressed: _pushSaved,
+          )
+        ],
       ),
       body: _buildSuggestions(),
     );
@@ -77,6 +83,20 @@ class RandomWordsState extends State<RandomWords> {
         });
       },
     );
+
+    void _pushSaved() {
+      // 添加MaterialPageRoute及其builder。 现在，添加生成ListTile行的代码。ListTile的divideTiles()方法在每个ListTile之间添加1像素的分割线。 该 divided 变量持有最终的列表项。
+      Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+        final titles = _saved.map((pair) {
+          return new ListTile(
+              title: new Text(
+            pair.asLowerCase,
+            style: _biggerFont,
+          ));
+        });
+        final divided = ListTile.divideTiles(context: context, tiles: titles).toList();
+      }));
+    }
   }
 }
 
